@@ -1,15 +1,23 @@
 import os
 
+from util import reset_working_dir
 
+
+@reset_working_dir
 def hit_init():
-    hit_file_name = ".hit"
-    if os.path.exists(hit_file_name):
+    hit_dir = ".hit"
+    hit_init_files = ["hit", "hit-log"]
+    if os.path.exists(hit_dir):
         print(f"Hit repo already initialized at {os.getcwd()}")
         return
-    file = open(hit_file_name, 'w')
-    file.write("# Hit Semantive file")
-    file.close()
-    print(f"Initialized empty Hit repository in {os.getcwd()}")
+    else:
+        os.mkdir(hit_dir)
+        os.chdir(hit_dir)
+        for file_name in hit_init_files:
+            file = open(file_name, 'w')
+            file.write("# Hit Semantive file")
+            file.close()
+        print(f"Initialized empty Hit repository in {os.getcwd()}")
 
 
 def get_new_files(hit_content: str) -> list:
@@ -18,7 +26,7 @@ def get_new_files(hit_content: str) -> list:
 
 
 def read_hit_content() -> str:
-    return open(".hit", 'r').read()
+    return open(".hit/hit", 'r').read()
 
 
 def hit_status():
