@@ -1,3 +1,4 @@
+import json
 import os
 
 from util import reset_working_dir
@@ -15,7 +16,7 @@ def hit_init():
         os.chdir(hit_dir)
         for file_name in hit_init_files:
             file = open(file_name, 'w')
-            file.write("# Hit Semantive file")
+            json.dump({"name": "Hit Semantive", "staged": []}, file)
             file.close()
         print(f"Initialized empty Hit repository in {os.getcwd()}")
 
@@ -26,16 +27,31 @@ def get_new_files(hit_content: str) -> list:
             file not in hit_content and file != ".hit"]
 
 
-def read_hit_content() -> str:
-    return open(".hit/hit", 'r').read()
+def read_hit_content(path="") -> dict:
+    path = str(path)
+    if path and path[-1] != '/':
+        path += '/'
+    file = open(path + ".hit/hit", 'r')
+    result = json.load(file)
+    file.close()
+    return result
 
 
 def hit_status():
     hit_content = read_hit_content()
-    new_files = get_new_files(hit_content)
+    new_files = get_new_files(str(hit_content))
     [print(f"> {file_name} (new file)") for file_name in new_files]
+
+
+def save_hit_content(hit_content):
+    with open('.hit/hit', 'w') as f:
+        json.dump(hit_content, f, indent=4)
 
 
 def hit_add(file_path: str):
     if not os.path.exists(file_path):
         print(f"No such file {file_path}")
+    else:
+        hit_content = read_hit_content()
+        hit_content["staged"] += [file_path]
+        save_hit_content(hit_content)

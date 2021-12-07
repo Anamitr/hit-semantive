@@ -1,7 +1,8 @@
 import os
 import subprocess
 
-from hit_processing.processing_func import hit_init, hit_status, hit_add
+from hit_processing.processing_func import hit_init, hit_status, hit_add, \
+    read_hit_content
 
 
 def test_hit_init(test_dir, capsys):
@@ -56,7 +57,7 @@ def test_hit_status_new_file(test_dir, capsys):
 
 
 def test_git_add_invalid_file(test_dir, capsys):
-    """ GIVEN initialized hit repository
+    """ GIVEN empty initialized hit repository
         WHEN hit_add(file) is called on non existing file
         THEN should print error msg
     """
@@ -66,3 +67,17 @@ def test_git_add_invalid_file(test_dir, capsys):
     hit_add(file_path)
 
     assert f"No such file {file_path}" in capsys.readouterr().out
+
+
+def test_git_add_existing_file(test_dir):
+    """ GIVEN hit repository with file
+        WHEN hit_add(file) is called
+        THEN it's name should be stored in hit as staged
+    """
+    hit_init()
+    subprocess.run("touch file1", shell=True)
+
+    hit_add("file1")
+
+    hit_content = read_hit_content(test_dir)
+    assert "file1" in hit_content["staged"]
