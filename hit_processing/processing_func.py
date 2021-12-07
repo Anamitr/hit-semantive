@@ -53,5 +53,6 @@ def hit_add(file_path: str):
         print(f"No such file {file_path}")
     else:
         hit_content = read_hit_content()
-        hit_content["staged"] += [file_path]
+        if file_path not in hit_content["staged"]:
+            hit_content["staged"] += [file_path]
         save_hit_content(hit_content)

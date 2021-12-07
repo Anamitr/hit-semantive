@@ -81,3 +81,19 @@ def test_git_add_existing_file(test_dir):
 
     hit_content = read_hit_content(test_dir)
     assert "file1" in hit_content["staged"]
+
+
+def test_git_add_already_added_file(test_dir):
+    """ GIVEN hit repository with staged file
+        WHEN hit_add(file) is called on staged file
+        THEN hit_content shouldn't change
+    """
+    hit_init()
+    subprocess.run("touch file1", shell=True)
+
+    hit_add("file1")
+    hit_content_1 = read_hit_content(test_dir)
+    hit_add("file1")
+    hit_content_2 = read_hit_content(test_dir)
+
+    assert hit_content_1 == hit_content_2
