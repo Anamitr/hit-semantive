@@ -12,6 +12,6 @@ if cmd == "init":
 elif cmd == "status":
     hit_status()
 elif cmd == "add":
-    hit_add(sys.argv[2])
+    hit_add(sys.argv[2:])
 else:
     print(f"Unrecognized command: {cmd}")

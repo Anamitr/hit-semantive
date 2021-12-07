@@ -56,7 +56,7 @@ def test_hit_status_new_file(test_dir, capsys):
     assert ".hit" not in out
 
 
-def test_git_add_invalid_file(test_dir, capsys):
+def test_hit_add_invalid_file(test_dir, capsys):
     """ GIVEN empty initialized hit repository
         WHEN hit_add(file) is called on non existing file
         THEN should print error msg
@@ -69,7 +69,7 @@ def test_git_add_invalid_file(test_dir, capsys):
     assert f"No such file {file_path}" in capsys.readouterr().out
 
 
-def test_git_add_existing_file(test_dir):
+def test_hit_add_existing_file(test_dir):
     """ GIVEN hit repository with file
         WHEN hit_add(file) is called
         THEN it's name should be stored in hit as staged
@@ -83,7 +83,7 @@ def test_git_add_existing_file(test_dir):
     assert "file1" in hit_content["staged"]
 
 
-def test_git_add_already_added_file(test_dir):
+def test_hit_add_already_added_file(test_dir):
     """ GIVEN hit repository with staged file
         WHEN hit_add(file) is called on staged file
         THEN hit_content shouldn't change
@@ -99,16 +99,17 @@ def test_git_add_already_added_file(test_dir):
     assert hit_content_1 == hit_content_2
 
 
-def test_git_add_asterix(test_dir):
+def test_hit_add_multiple(test_dir):
     """ GIVEN hit repository with multiple new files
-        WHEN hit_add('*') is called
+        WHEN hit_add(files) is called
         THEN all new files should be staged
     """
     hit_init()
     subprocess.run("touch file1; touch file2; touch file3", shell=True)
+    files = ["file1", "file2", "file3"]
     hit_add("file1")
 
-    hit_add('*')
+    hit_add(files)
     hit_content = read_hit_content(test_dir)
 
     assert hit_content["staged"] == ["file1", "file2", "file3"]
