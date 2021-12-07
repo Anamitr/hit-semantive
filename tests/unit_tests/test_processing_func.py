@@ -112,3 +112,22 @@ def test_git_add_asterix(test_dir):
     hit_content = read_hit_content(test_dir)
 
     assert hit_content["staged"] == ["file1", "file2", "file3"]
+
+
+def test_hit_status_show_staged(test_dir, capsys):
+    """ GIVEN hit repository with some staged files
+        WHEN hit_status is called
+        THEN should display staged files
+    """
+    hit_init()
+    subprocess.run("touch file1; touch file2; touch file3", shell=True)
+    hit_add("file1")
+    hit_add("file2")
+    capsys.readouterr().out = ""
+
+    hit_status()
+
+    out = capsys.readouterr().out
+    assert "> file1 (staged file)" in out
+    assert "> file2 (staged file)" in out
+    assert "> file3 (new file)" in out

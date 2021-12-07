@@ -40,6 +40,8 @@ def read_hit_content(path="") -> dict:
 def hit_status():
     hit_content = read_hit_content()
     new_files = get_new_files(str(hit_content))
+    [print(f"> {file_name} (staged file)") for file_name in
+     hit_content["staged"]]
     [print(f"> {file_name} (new file)") for file_name in new_files]
 
 
