@@ -97,3 +97,18 @@ def test_git_add_already_added_file(test_dir):
     hit_content_2 = read_hit_content(test_dir)
 
     assert hit_content_1 == hit_content_2
+
+
+def test_git_add_asterix(test_dir):
+    """ GIVEN hit repository with multiple new files
+        WHEN hit_add('*') is called
+        THEN all new files should be staged
+    """
+    hit_init()
+    subprocess.run("touch file1; touch file2; touch file3", shell=True)
+    hit_add("file1")
+
+    hit_add('*')
+    hit_content = read_hit_content(test_dir)
+
+    assert hit_content["staged"] == ["file1", "file2", "file3"]

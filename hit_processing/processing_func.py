@@ -48,7 +48,20 @@ def save_hit_content(hit_content):
         json.dump(hit_content, f, indent=4)
 
 
+def hit_add_all():
+    hit_content = read_hit_content()
+    files = os.listdir(os.getcwd())
+    staged_set = set(hit_content["staged"] + files)
+    staged_set.remove('.hit')
+    hit_content["staged"] = sorted(list(staged_set))
+    save_hit_content(hit_content)
+
+
 def hit_add(file_path: str):
+    if file_path == '*':
+        hit_add_all()
+        return
+
     if not os.path.exists(file_path):
         print(f"No such file {file_path}")
     else:
