@@ -46,8 +46,10 @@ def test_hit_status_new_file(test_dir, capsys):
     assert "file1" in dir_content and "file2" in dir_content
 
     hit_init()
+    capsys.readouterr().out = ""
     hit_status()
 
     out = capsys.readouterr().out
     assert "> file1 (new file)" in out
     assert "> file2 (new file)" in out
+    assert ".hit" not in out

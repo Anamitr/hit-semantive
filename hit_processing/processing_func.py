@@ -22,7 +22,8 @@ def hit_init():
 
 def get_new_files(hit_content: str) -> list:
     dir_content = os.listdir(os.getcwd())
-    return [file for file in dir_content if file not in hit_content]
+    return [file for file in dir_content if
+            file not in hit_content and file != ".hit"]
 
 
 def read_hit_content() -> str:
