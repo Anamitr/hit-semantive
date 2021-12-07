@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from hit_processing.processing_func import hit_init, hit_status
+from hit_processing.processing_func import hit_init, hit_status, hit_add
 
 
 def test_hit_init(test_dir, capsys):
@@ -53,3 +53,16 @@ def test_hit_status_new_file(test_dir, capsys):
     assert "> file1 (new file)" in out
     assert "> file2 (new file)" in out
     assert ".hit" not in out
+
+
+def test_git_add_invalid_file(test_dir, capsys):
+    """ GIVEN initialized hit repository
+        WHEN hit_add(file) is called on non existing file
+        THEN should print error msg
+    """
+    hit_init()
+
+    file_path = "invalid_file.txt"
+    hit_add(file_path)
+
+    assert f"No such file {file_path}" in capsys.readouterr().out

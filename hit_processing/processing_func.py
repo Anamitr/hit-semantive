@@ -34,3 +34,8 @@ def hit_status():
     hit_content = read_hit_content()
     new_files = get_new_files(hit_content)
     [print(f"> {file_name} (new file)") for file_name in new_files]
+
+
+def hit_add(file_path: str):
+    if not os.path.exists(file_path):
+        print(f"No such file {file_path}")
