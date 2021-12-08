@@ -161,10 +161,10 @@ def test_hit_commit_first(repo_with_3_files, capsys):
     assert "file3" not in out
 
 
-def test_git_status_after_modifying_committed_file(repo_with_3_files, capsys):
+def test_hit_status_after_modifying_committed_file(repo_with_3_files, capsys):
     """ GIVEN repository with one new, one committed and one committed
               and modified file
-        WHEN git_status() is called
+        WHEN hit_status() is called
         THEN info about one modified and one new file should be displayed
     """
     hit_init()
@@ -179,3 +179,29 @@ def test_git_status_after_modifying_committed_file(repo_with_3_files, capsys):
     assert "file1" not in out
     assert "> file2 (modified file)" in out
     assert "> file3 (new file)" in out
+
+
+def test_hit_commit_second(repo_with_3_files, capsys):
+    """ GIVEN repository with a commit
+        WHEN some changes are added and hit_commit() called
+        THEN new commit should be created and hit_status() updated"""
+    hit_init()
+    hit_add("file1")
+    hit_add("file2")
+    hit_commit()
+    subprocess.run("echo 'test' >> file2", shell=True)
+    capsys.readouterr().out = ""
+
+    hit_add("file2")
+    hit_commit()
+
+    commits_path = str(repo_with_3_files) + "/.hit/commits"
+    commit_dirs = os.listdir(commits_path)
+    assert "2" in commit_dirs
+    first_commit_files = os.listdir(commits_path + "/1")
+    assert first_commit_files == ["file1", "file2"]
+    second_commit_files = os.listdir(commits_path + "/2")
+    assert second_commit_files == ["file2"]
+    file2_old = open(commits_path + "/1/file2", 'r').read()
+    file2_new = open(commits_path + "/2/file2", 'r').read()
+    assert file2_old != file2_new
