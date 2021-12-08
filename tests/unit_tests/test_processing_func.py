@@ -148,8 +148,8 @@ def test_hit_commit_first(repo_with_3_files, capsys):
 
     commits_path = str(repo_with_3_files) + "/.hit/commits"
     commit_dirs = os.listdir(commits_path)
-    assert "0" in commit_dirs
-    commit_files = os.listdir(commits_path + "/0")
+    assert "1" in commit_dirs
+    commit_files = os.listdir(commits_path + "/1")
     assert "file2" in commit_files
     assert "file3" in commit_files
 

@@ -2,14 +2,14 @@ import json
 import os
 from shutil import copy
 
-from util import reset_working_dir
+from util import reset_working_dir, subtract_lists
 
 
 @reset_working_dir
 def hit_init():
     hit_dir = ".hit"
     hit_init_files = ["hit", "hit-log"]
-    hit_sub_dirs = ["commits"]
+    hit_sub_dirs = ["commits", "commits/0"]
     if os.path.exists(hit_dir):
         print(f"Hit repo already initialized at {os.getcwd()}")
         return
@@ -24,7 +24,8 @@ def hit_init():
             open(file_name, 'a').close()
 
         file = open('hit', 'w')
-        json.dump({"name": "Hit Semantive", "staged": []}, file, indent=4)
+        json.dump({"name": "Hit Semantive", "staged": [], "lastCommit": "0"},
+                  file, indent=4)
         file.close()
         print(f"Initialized empty Hit repository in {os.getcwd()}")
 
@@ -45,12 +46,46 @@ def read_hit_content(path="") -> dict:
     return result
 
 
+def get_commited_files(hit_content: dict) -> list:
+    files_in_last_commit = os.listdir(
+        f"./hit/commits/{hit_content['lastCommit']}")
+    current_files = os.listdir('.')
+    return list({*current_files, *files_in_last_commit})
+
+
+def get_files_from_last_commit(hit_content):
+    return os.listdir(f"./.hit/commits/{hit_content['lastCommit']}")
+
+
+def is_file_modified(file: str, hit_content: dict) -> bool:
+    file_content = open(file, 'r').read()
+    last_commit_file_content = open(
+        f".hit/commits/{hit_content['lastCommit']}/{file}", 'r').read()
+    return file_content != last_commit_file_content
+
+
 def hit_status():
     hit_content = read_hit_content()
-    new_files = get_new_files(str(hit_content))
+    new_files, modified_files, unmodified_files = [], [], []
+    files_in_last_commit = get_files_from_last_commit(hit_content)
+    current_files = subtract_lists(os.listdir("."), hit_content["staged"])
+    current_files = subtract_lists(current_files, [".hit"])
+
+    for current_file in current_files:
+        if current_file not in files_in_last_commit:
+            new_files.append(current_file)
+        else:
+            if is_file_modified(current_file, hit_content):
+                modified_files.append(current_file)
+            else:
+                unmodified_files.append(current_file)
+
     [print(f"> {file_name} (staged file)") for file_name in
      hit_content["staged"]]
-    [print(f"> {file_name} (new file)") for file_name in new_files]
+    [print(f"> {file_name} (modified file)") for file_name in
+     modified_files]
+    [print(f"> {file_name} (new file)") for file_name in
+     new_files]
 
 
 def save_hit_content(hit_content):
@@ -81,6 +116,9 @@ def hit_add(file_paths):
 def hit_commit():
     hit_content = read_hit_content()
     commits_path = ".hit/commits/"
-    os.mkdir(commits_path + "0")
+    os.mkdir(commits_path + "1")
     for staged_file in hit_content["staged"]:
-        copy(staged_file, commits_path + "0/")
+        copy(staged_file, commits_path + "1/")
+    hit_content["staged"] = []
+    hit_content["lastCommit"] = "1"
+    save_hit_content(hit_content)
