@@ -1,6 +1,6 @@
 import json
 import os
-from shutil import copy
+from shutil import copy, copyfile, copy2
 
 from util import reset_working_dir, subtract_lists
 
@@ -24,7 +24,7 @@ def hit_init():
             open(file_name, 'a').close()
 
         file = open('hit', 'w')
-        json.dump({"name": "Hit Semantive", "staged": [], "lastCommit": "0"},
+        json.dump({"name": "Hit Semantive", "staged": [], "lastCommit": 0},
                   file, indent=4)
         file.close()
         print(f"Initialized empty Hit repository in {os.getcwd()}")
@@ -46,7 +46,7 @@ def read_hit_content(path="") -> dict:
     return result
 
 
-def get_commited_files(hit_content: dict) -> list:
+def get_committed_files(hit_content: dict) -> list:
     files_in_last_commit = os.listdir(
         f"./hit/commits/{hit_content['lastCommit']}")
     current_files = os.listdir('.')
@@ -116,9 +116,9 @@ def hit_add(file_paths):
 def hit_commit():
     hit_content = read_hit_content()
     commits_path = ".hit/commits/"
-    os.mkdir(commits_path + "1")
+    hit_content["lastCommit"] += 1
+    os.mkdir(commits_path + str(hit_content["lastCommit"]))
     for staged_file in hit_content["staged"]:
-        copy(staged_file, commits_path + "1/")
+        copy2(staged_file, commits_path + f"{hit_content['lastCommit']}/")
     hit_content["staged"] = []
-    hit_content["lastCommit"] = "1"
     save_hit_content(hit_content)
