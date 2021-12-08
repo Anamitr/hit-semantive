@@ -159,3 +159,23 @@ def test_hit_commit_first(repo_with_3_files, capsys):
     assert "> file1 (new file)" in out
     assert "file2" not in out
     assert "file3" not in out
+
+
+def test_git_status_after_modifying_committed_file(repo_with_3_files, capsys):
+    """ GIVEN repository with one new, one committed and one committed
+              and modified file
+        WHEN git_status() is called
+        THEN info about one modified and one new file should be displayed
+    """
+    hit_init()
+    hit_add("file1")
+    hit_add("file2")
+    hit_commit()
+    subprocess.run("echo 'test' >> file2", shell=True)
+    capsys.readouterr().out = ""
+
+    hit_status()
+    out = capsys.readouterr().out
+    assert "file1" not in out
+    assert "> file2 (modified file)" in out
+    assert "> file3 (new file)" in out
