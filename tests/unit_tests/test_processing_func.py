@@ -2,7 +2,7 @@ import os
 import subprocess
 
 from hit_processing.processing_func import hit_init, hit_status, hit_add, \
-    read_hit_content
+    read_hit_content, hit_commit
 
 
 def test_hit_init(test_dir, capsys):
@@ -132,3 +132,30 @@ def test_hit_status_show_staged(test_dir, capsys):
     assert "> file1 (staged file)" in out
     assert "> file2 (staged file)" in out
     assert "> file3 (new file)" in out
+
+
+def test_hit_commit_first(repo_with_3_files, capsys):
+    """ GIVEN hit repository with some staged files
+        WHEN hit_commit is called
+        THEN staged files should be copied to commit dir
+             and hit status should not show them
+    """
+    hit_init()
+    hit_add("file2")
+    hit_add("file3")
+
+    hit_commit()
+
+    commits_path = str(repo_with_3_files) + "/.hit/commits"
+    commit_dirs = os.listdir(commits_path)
+    assert "0" in commit_dirs
+    commit_files = os.listdir(commits_path + "/0")
+    assert "file2" in commit_files
+    assert "file3" in commit_files
+
+    capsys.readouterr().out = ""
+    hit_status()
+    out = capsys.readouterr().out
+    assert "> file1 (new file)" in out
+    assert "file2" not in out
+    assert "file3" not in out
