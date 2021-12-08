@@ -11,3 +11,7 @@ def reset_working_dir(func):
         return value
 
     return wrapper
+
+
+def subtract_lists(list1: list, list2: list) -> list:
+    return [item for item in list1 if item not in list2]
