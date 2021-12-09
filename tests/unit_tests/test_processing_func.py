@@ -1,8 +1,9 @@
 import os
 import subprocess
 
-from hit_processing.processing_func import hit_status, hit_add, \
+from hit_processing.processing_func import hit_add, \
     read_hit_content, hit_commit
+from hit_processing.hit_status import hit_status
 from hit_processing.hit_init import hit_init
 
 
@@ -185,7 +186,8 @@ def test_hit_status_after_modifying_committed_file(repo_with_3_files, capsys):
 def test_hit_commit_second(repo_with_3_files, capsys):
     """ GIVEN repository with a commit
         WHEN some changes are added and hit_commit() called
-        THEN new commit should be created and hit_status() updated"""
+        THEN new commit should be created and hit_status() updated
+    """
     hit_init()
     hit_add("file1")
     hit_add("file2")
