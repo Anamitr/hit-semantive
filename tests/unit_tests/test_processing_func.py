@@ -1,8 +1,9 @@
 import os
 import subprocess
 
-from hit_processing.processing_func import hit_add, \
-    read_hit_content, hit_commit
+from hit_processing.processing_func import read_hit_content
+from hit_processing.hit_commit import hit_commit
+from hit_processing.hit_add import hit_add
 from hit_processing.hit_status import hit_status
 from hit_processing.hit_init import hit_init
 
