@@ -82,10 +82,10 @@ def hit_status():
 
     [print(f"> {file_name} (staged file)") for file_name in
      hit_content["staged"]]
-    [print(f"> {file_name} (modified file)") for file_name in
-     modified_files]
-    [print(f"> {file_name} (new file)") for file_name in
-     new_files]
+    [print(f"> {file_name} (modified file)") for file_name in modified_files]
+    [print(f"> {file_name} (new file)") for file_name in new_files]
+    if not (hit_content["staged"] or modified_files or new_files):
+        print("> ")
 
 
 def save_hit_content(hit_content):
