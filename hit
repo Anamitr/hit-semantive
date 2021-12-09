@@ -1,0 +1,3 @@
+#!/bin/bash
+cwd="$(dirname "$0")"
+python $cwd/main.py ${@:1}
