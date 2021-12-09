@@ -1,34 +1,8 @@
 import json
 import os
-from shutil import copy, copyfile, copy2
+from shutil import copy2
 
-from util import reset_working_dir, subtract_lists, no_args
-
-
-@reset_working_dir
-@no_args
-def hit_init():
-    hit_dir = ".hit"
-    hit_init_files = ["hit", "hit-log"]
-    hit_sub_dirs = ["commits", "commits/0"]
-    if os.path.exists(hit_dir):
-        print(f"Hit repo already initialized at {os.getcwd()}")
-        return
-    else:
-        os.mkdir(hit_dir)
-        os.chdir(hit_dir)
-
-        for hit_sub_dir in hit_sub_dirs:
-            os.mkdir(hit_sub_dir)
-
-        for file_name in hit_init_files:
-            open(file_name, 'a').close()
-
-        file = open('hit', 'w')
-        json.dump({"name": "Hit Semantive", "staged": [], "lastCommit": 0},
-                  file, indent=4)
-        file.close()
-        print(f"Initialized empty Hit repository in {os.getcwd()}")
+from util import subtract_lists, no_args
 
 
 def get_new_files(hit_content: str) -> list:

@@ -3,7 +3,7 @@ import subprocess
 
 from pytest import fixture
 
-from hit_processing.processing_func import hit_init
+from hit_processing.hit_init import hit_init
 
 
 @fixture

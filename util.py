@@ -21,10 +21,21 @@ def subtract_lists(list1: list, list2: list) -> list:
 def no_args(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if len(args[0]) != 0 or len(kwargs) != 0:
-            print(f"{func.__name__.replace('_', ' ')} takes no arguments!")
-            sys.exit(1)
+        if args:
+            if len(args[0]) != 0 or len(kwargs) != 0:
+                print(f"{func.__name__.replace('_', ' ')} takes no arguments!")
+                sys.exit(1)
         value = func()
         return value
 
     return wrapper
+
+
+def touch_files(files: list):
+    for file_name in files:
+        open(file_name, 'a').close()
+
+
+def create_dirs(sub_dirs: list):
+    for sub_dir in sub_dirs:
+        os.mkdir(sub_dir)
