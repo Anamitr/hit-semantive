@@ -6,7 +6,7 @@ from processing.hit_status import hit_status
 from processing.hit_init import hit_init
 
 if len(sys.argv) == 1:
-    print("Hit Semantive version 0.01")
+    print("Hit Semantive version 1.00")
     sys.exit(0)
 
 cmd_dict = {"init": hit_init, "status": hit_status, "add": hit_add,
