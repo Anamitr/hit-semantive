@@ -1,7 +1,8 @@
 import json
 import os
 
-from util import reset_working_dir, no_args, touch_files, create_dirs
+from hit_processing.util import touch_files, create_dirs
+from hit_processing.decorators import reset_working_dir, no_args
 
 
 @reset_working_dir

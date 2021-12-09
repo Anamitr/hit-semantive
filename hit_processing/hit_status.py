@@ -1,7 +1,8 @@
 import os
 
 from hit_processing.processing_func import read_hit_content
-from util import no_args, subtract_lists
+from hit_processing.util import subtract_lists
+from hit_processing.decorators import no_args
 
 
 def get_new_files(hit_content: str) -> list:

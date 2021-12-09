@@ -2,7 +2,7 @@ import os
 from shutil import copy2
 
 from hit_processing.processing_func import read_hit_content, save_hit_content
-from util import no_args
+from hit_processing.decorators import no_args
 
 
 @no_args
