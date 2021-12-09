@@ -55,7 +55,16 @@ def test_hit_commit_second(repo_with_3_files, capsys):
     first_commit_files = os.listdir(commits_path + "/1")
     assert first_commit_files == ["file1", "file2"]
     second_commit_files = os.listdir(commits_path + "/2")
-    assert second_commit_files == ["file2"]
+    assert second_commit_files == ["file1", "file2"]
     file2_old = open(commits_path + "/1/file2", 'r').read()
     file2_new = open(commits_path + "/2/file2", 'r').read()
     assert file2_old != file2_new
+
+
+def test_hit_commit_single_file_after_committing_multiple():
+    """ GIVEN repository with multiple committed files and one staged change
+        WHEN hit_commit() is called
+        THEN new commit should contain files from previous commit and
+        new change
+    """
+    # TODO:
