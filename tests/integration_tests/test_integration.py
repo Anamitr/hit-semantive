@@ -16,7 +16,7 @@ def test_example_from_mail(test_dir):
                                        stdout=subprocess.PIPE)
     out = completed_process.stdout.decode()
 
-    assert re.match("Initialized empty Hit repository in [/\w-]+.hit",
+    assert re.match(r"Initialized empty Hit repository in [/\w-]+.hit",
                     out.split('\n')[0])
 
     all_out_but_first_line = "\n".join(out.split('\n')[1:])
