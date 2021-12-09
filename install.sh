@@ -1,7 +1,7 @@
 sh uninstall.sh
 mkdir ~/.hit_install
 cp -r * ~/.hit_install
-chmod u+x ~/.hit_install hit
+chmod u+x ~/.hit_install/hit
 # Make globally available
 echo '# Hit Semantive' >> ~/.bashrc
 echo 'export PATH="${PATH}:$HOME/.hit_install"' >> ~/.bashrc

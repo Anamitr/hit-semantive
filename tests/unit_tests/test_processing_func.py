@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from processing.processing_func import read_hit_content
+from processing.hit_processing import read_hit_content
 from processing.hit_commit import hit_commit
 from processing.hit_add import hit_add
 from processing.hit_status import hit_status

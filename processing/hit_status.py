@@ -1,6 +1,6 @@
 import os
 
-from processing.processing_func import read_hit_content
+from processing.hit_processing import read_hit_content
 from processing.util import subtract_lists
 from processing.decorators import no_args
 

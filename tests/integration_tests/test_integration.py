@@ -3,6 +3,7 @@ import subprocess
 
 
 def test_example_from_mail(test_dir):
+    """ Uses installed hit, not local repository files """
     script = "hit init\n" \
              "touch file1 && touch file2\n" \
              "hit status\n" \
