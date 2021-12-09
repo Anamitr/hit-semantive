@@ -1,9 +1,9 @@
 import sys
 
-from hit_processing.hit_commit import hit_commit
-from hit_processing.hit_add import hit_add
-from hit_processing.hit_status import hit_status
-from hit_processing.hit_init import hit_init
+from processing.hit_commit import hit_commit
+from processing.hit_add import hit_add
+from processing.hit_status import hit_status
+from processing.hit_init import hit_init
 
 if len(sys.argv) == 1:
     print("Hit Semantive version 0.01")

@@ -1,4 +1,4 @@
-from hit_processing.util import subtract_lists
+from processing.util import subtract_lists
 
 
 def test_subtract_lists():

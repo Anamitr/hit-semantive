@@ -1,11 +1,11 @@
 import os
 import subprocess
 
-from hit_processing.processing_func import read_hit_content
-from hit_processing.hit_commit import hit_commit
-from hit_processing.hit_add import hit_add
-from hit_processing.hit_status import hit_status
-from hit_processing.hit_init import hit_init
+from processing.processing_func import read_hit_content
+from processing.hit_commit import hit_commit
+from processing.hit_add import hit_add
+from processing.hit_status import hit_status
+from processing.hit_init import hit_init
 
 
 def test_hit_init(test_dir, capsys):
