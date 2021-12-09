@@ -7,14 +7,12 @@ if len(sys.argv) == 1:
     print("Hit Semantive version 0.01")
     sys.exit(0)
 
+cmd_dict = {"init": hit_init, "status": hit_status, "add": hit_add,
+            "commit": hit_commit}
+
 cmd = sys.argv[1]
-if cmd == "init":
-    hit_init()
-elif cmd == "status":
-    hit_status()
-elif cmd == "add":
-    hit_add(sys.argv[2:])
-elif cmd == "commit":
-    hit_commit()
-else:
+
+try:
+    cmd_dict[cmd](sys.argv[2:])
+except KeyError:
     print(f"Unrecognized command: {cmd}")

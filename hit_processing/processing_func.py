@@ -2,10 +2,11 @@ import json
 import os
 from shutil import copy, copyfile, copy2
 
-from util import reset_working_dir, subtract_lists
+from util import reset_working_dir, subtract_lists, no_args
 
 
 @reset_working_dir
+@no_args
 def hit_init():
     hit_dir = ".hit"
     hit_init_files = ["hit", "hit-log"]
@@ -64,6 +65,7 @@ def is_file_modified(file: str, hit_content: dict) -> bool:
     return file_content != last_commit_file_content
 
 
+@no_args
 def hit_status():
     hit_content = read_hit_content()
     new_files, modified_files, unmodified_files = [], [], []
@@ -113,6 +115,7 @@ def hit_add(file_paths):
     save_hit_content(hit_content)
 
 
+@no_args
 def hit_commit():
     hit_content = read_hit_content()
     commits_path = ".hit/commits/"
